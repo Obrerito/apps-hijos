@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lorena Fredes</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Lorena">
@@ -47,16 +48,16 @@
     <span class="badge">Versión de prueba — Lorena</span>
   </div>
 <script>
-  // Limpieza: si un visitante ya tenía un service worker viejo
-  // registrado (versión anterior de esta página), lo desactivamos
-  // para que siempre vea el contenido más reciente.
+  // Se desregistra cualquier service worker viejo (versión con caché,
+  // causante del problema de contenido desactualizado) y se registra
+  // la versión nueva, que no guarda nada en caché.
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.unregister());
+    }).then(() => {
+      if (window.caches) { caches.keys().then(keys => keys.forEach(k => caches.delete(k))); }
+      navigator.serviceWorker.register('sw.js').catch(() => {});
     });
-  }
-  if (window.caches) {
-    caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
   }
 </script>
 </body>
