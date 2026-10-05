@@ -130,7 +130,33 @@ def generar_tarjeta(carpeta):
             str(carpeta / "qr.png"), scale=16, border=4, dark="#000000", light="#ffffff")
     except ImportError:
         print(f"  (sin la librería 'segno' no se regenera el QR de {carpeta.name}; el existente sigue valiendo)")
+    generar_instructivo(carpeta, datos, valores)
     print(f"✓ {carpeta.name}")
+
+
+def generar_instructivo(carpeta, datos, valores):
+    """Escribe <carpeta>/instructivo.pdf (cómo instalar la tarjeta en iPhone y Android)."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print(f"  (sin 'playwright' no se regenera el instructivo de {carpeta.name})")
+        return
+    campos = dict(valores, url_corta=f"{SITIO.split('//')[1]}/{carpeta.name}/")
+    pagina = (RAIZ / "herramientas" / "instructivo.html").read_text(encoding="utf-8")
+    pagina = re.sub(r"\{\{(\w+)\}\}", lambda m: campos[m.group(1)], pagina)
+    temporal = carpeta / "_instructivo.html"
+    temporal.write_text(pagina, encoding="utf-8")
+    try:
+        with sync_playwright() as p:
+            navegador = p.chromium.launch()
+            hoja = navegador.new_page()
+            hoja.goto(temporal.as_uri())
+            hoja.wait_for_timeout(800)
+            hoja.pdf(path=str(carpeta / "instructivo.pdf"), format="A4", print_background=True,
+                     margin={"top": "0", "right": "0", "bottom": "0", "left": "0"})
+            navegador.close()
+    finally:
+        temporal.unlink()
 
 
 def generar_panel():
@@ -147,6 +173,8 @@ def generar_panel():
             nombre = html.unescape(titulo.group(1)) if titulo else carpeta.name
         icono = f"../{carpeta.name}/icon-192.png"
         qr = (f'<a href="../{carpeta.name}/qr.png">QR</a>' if (carpeta / "qr.png").exists() else "")
+        guia = (f'<a href="../{carpeta.name}/instructivo.pdf">Instructivo</a>'
+                if (carpeta / "instructivo.pdf").exists() else "")
         datos_link = (f'<a href="{REPO}/blob/main/{carpeta.name}/datos.json">Datos</a>' if generada else "")
         tipo = "Con ficha de datos" if generada else "Hecha a mano"
         fichas.append(f"""    <li class="ficha">
@@ -160,6 +188,7 @@ def generar_panel():
           <a href="{REPO}/tree/main/{carpeta.name}">Archivos</a>
           {datos_link}
           {qr}
+          {guia}
         </p>
         <p class="url">{SITIO}/{carpeta.name}/</p>
       </div>

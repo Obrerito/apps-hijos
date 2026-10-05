@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cómo instalar la tarjeta de {{nombre}}</title>
+<style>
+  /* Molde del instructivo de instalación. generar.py lo convierte en
+     <carpeta>/instructivo.pdf usando los datos y colores de la tarjeta. */
+  @page { size: A4; margin: 0; }
+  :root {
+    --bg: {{fondo}}; --ink: {{tinta}}; --soft: {{tinta_suave}}; --faint: {{tinta_tenue}};
+    --accent: {{acento}}; --deep: {{acento_oscuro}}; --tint: {{acento_tinte}}; --line: {{linea}};
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; color: var(--ink); font-family: "{{fuente_texto}}", Helvetica, Arial, sans-serif; font-weight: 400; }
+  .page { width: 210mm; height: 297mm; padding: 17mm 18mm 14mm; background: var(--bg);
+          display: flex; flex-direction: column; page-break-after: always; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+
+  .eyebrow { font-size: 9.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--deep); font-weight: 500; margin: 0 0 3mm; }
+  h1 { font-family: "{{fuente_titulo}}", Georgia, serif; font-weight: 300; font-size: 30pt; line-height: 1.1;
+       letter-spacing: 0.04em; margin: 0; }
+  h1 b { font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+  .lead { font-size: 11.5pt; font-weight: 300; line-height: 1.55; color: var(--soft); margin: 4mm 0 0; max-width: 150mm; }
+
+  .open { display: flex; gap: 9mm; align-items: center; margin-top: 8mm; padding: 7mm; background: #fff;
+          border: 0.3mm solid var(--line); }
+  .open img.qr { width: 44mm; height: 44mm; flex: none; display: block; }
+  .open h2 { margin: 0 0 2.5mm; }
+  .open p { margin: 0 0 2.5mm; font-size: 11.2pt; font-weight: 300; line-height: 1.5; color: var(--soft); }
+  .url { font-size: 11.5pt; font-weight: 500; color: var(--ink); background: var(--tint); padding: 2.2mm 3mm;
+         display: inline-block; letter-spacing: 0.01em; }
+
+  h2 { font-family: "{{fuente_titulo}}", Georgia, serif; font-weight: 400; font-size: 19pt; letter-spacing: 0.03em; margin: 0; }
+  .system { display: flex; align-items: baseline; gap: 4mm; margin-top: 9mm; padding-bottom: 2.5mm; border-bottom: 0.3mm solid var(--accent); }
+  .system span { font-size: 9.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--deep); font-weight: 500; }
+
+  ol { list-style: none; margin: 5mm 0 0; padding: 0; counter-reset: paso; }
+  li { counter-increment: paso; display: flex; gap: 5mm; padding: 4.4mm 0; border-bottom: 0.2mm solid var(--line); }
+  li:last-child { border-bottom: 0; }
+  li::before { content: counter(paso); flex: none; width: 9mm; height: 9mm; border-radius: 50%; background: var(--accent);
+               color: var(--ink); font-weight: 500; font-size: 11pt; display: flex; align-items: center; justify-content: center; }
+  li div { flex: 1; }
+  li strong { display: block; font-size: 12.5pt; font-weight: 500; margin-bottom: 0.8mm; }
+  li p { margin: 0; font-size: 11.2pt; font-weight: 300; line-height: 1.5; color: var(--soft); }
+  q { quotes: "«" "»"; color: var(--ink); font-weight: 500; }
+
+  .note { margin-top: 5mm; padding: 4mm 5mm; background: var(--tint); border-left: 1mm solid var(--accent);
+          font-size: 11pt; font-weight: 300; line-height: 1.5; color: var(--ink); }
+  .note b { font-weight: 500; }
+
+  .result { display: flex; gap: 7mm; align-items: center; margin-top: 8mm; padding: 6mm 7mm; background: #fff; border: 0.3mm solid var(--line); }
+  .result img { width: 22mm; height: 22mm; border-radius: 5mm; flex: none; }
+  .result p { margin: 0; font-size: 11pt; font-weight: 300; line-height: 1.5; color: var(--soft); }
+  .result strong { display: block; font-size: 11.5pt; font-weight: 500; color: var(--ink); margin-bottom: 1mm; }
+
+  footer { margin-top: auto; padding-top: 5mm; display: flex; justify-content: space-between; font-size: 8.5pt;
+           letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); font-weight: 300; }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <p class="eyebrow">Tarjeta de contacto digital</p>
+  <h1>Cómo instalar la tarjeta de <b>{{nombre}}</b> en el teléfono</h1>
+  <p class="lead">En un minuto la tarjeta queda como un ícono más en la pantalla de inicio, con su foto, y se abre como cualquier aplicación. No hay que descargar nada de ninguna tienda.</p>
+
+  <div class="open">
+    <img class="qr" src="qr.png" alt="Código QR de la tarjeta">
+    <div>
+      <h2>Primero, abrir la tarjeta</h2>
+      <p>Apunta la cámara del teléfono a este código y toca el aviso que aparece. O escribe esta dirección en el navegador:</p>
+      <span class="url">{{url_corta}}</span>
+    </div>
+  </div>
+
+  <div class="system"><h2>En iPhone</h2><span>Navegador Safari</span></div>
+  <ol>
+    <li><div><strong>Comprueba que estás en Safari</strong>
+      <p>Si el enlace llegó por WhatsApp o Instagram y se abrió dentro de esa aplicación, busca la opción <q>Abrir en Safari</q> antes de seguir. Desde ahí dentro no se puede instalar.</p></div></li>
+    <li><div><strong>Toca el botón Compartir</strong>
+      <p>Es el cuadrado con una flecha hacia arriba. Si no lo ves, toca antes los tres puntos <q>···</q> de la barra.</p></div></li>
+    <li><div><strong>Elige <q>Añadir a pantalla de inicio</q></strong>
+      <p>Hay que deslizar la lista hacia abajo para encontrarla. En algunos teléfonos dice <q>Agregar a inicio</q>.</p></div></li>
+    <li><div><strong>Toca <q>Añadir</q></strong>
+      <p>Está arriba a la derecha. El ícono aparece en la pantalla de inicio.</p></div></li>
+  </ol>
+
+  <footer><span>{{nombre}}</span><span>1 / 2</span></footer>
+</section>
+
+<section class="page">
+  <p class="eyebrow">Tarjeta de contacto digital</p>
+  <div class="system" style="margin-top:0"><h2>En Android</h2><span>Navegador Chrome</span></div>
+  <ol>
+    <li><div><strong>Abre la tarjeta en Chrome</strong>
+      <p>Con el código QR o la dirección de la primera página. Si se abrió dentro de WhatsApp o Instagram, toca los tres puntos y elige <q>Abrir en Chrome</q>.</p></div></li>
+    <li><div><strong>Espera unos segundos</strong>
+      <p>La primera vez, Chrome tarda un momento en reconocer que la tarjeta se puede instalar.</p></div></li>
+    <li><div><strong>Toca los tres puntos <q>⋮</q></strong>
+      <p>Están arriba a la derecha.</p></div></li>
+    <li><div><strong>Elige <q>Instalar aplicación</q></strong>
+      <p>Si en su lugar aparece <q>Añadir a pantalla de inicio</q>, tócala y, en el aviso siguiente, elige <q>Instalar</q>.</p></div></li>
+    <li><div><strong>Confirma con <q>Instalar</q></strong>
+      <p>El ícono aparece en la pantalla de inicio o en la lista de aplicaciones.</p></div></li>
+  </ol>
+
+  <div class="note"><b>Importante en Android:</b> elige siempre <b>Instalar</b>, no <b>Crear acceso directo</b>. El acceso directo deja un ícono genérico con el logotipo de Chrome encima. Si la opción <b>Instalar</b> no aparece, recarga la página, espera unos segundos y vuelve a abrir el menú.</div>
+
+  <div class="result">
+    <img src="icon-512.png" alt="">
+    <p><strong>Así queda instalada</strong>
+    Un ícono con la foto y el nombre <q>{{nombre_app}}</q>. Al tocarlo, la tarjeta se abre a pantalla completa con los botones de contacto. Si más adelante cambia algún dato, la tarjeta instalada se actualiza sola: no hay que volver a instalarla.</p>
+  </div>
+
+  <div class="note" style="background:#fff;border-left-color:var(--line)"><b>Para quitarla:</b> mantén el dedo sobre el ícono y elige eliminar o desinstalar, como con cualquier aplicación.</div>
+
+  <footer><span>{{nombre}}</span><span>2 / 2</span></footer>
+</section>
+
+</body>
+</html>
