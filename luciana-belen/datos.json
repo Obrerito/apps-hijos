@@ -4,7 +4,7 @@
   "nombre_app": "Luciana Belén",
   "descripcion": "Tarjeta digital de Luciana Belén, maquillaje y peinado especializado en novias y eventos",
   "profesion": "",
-  "frase": "",
+  "frase": "Maquillaje y Peinado especializado en novias y eventos",
   "pie": "Tarjeta de contacto digital",
   "foto": "avatar.jpg",
   "foto_alt": "Retrato de Luciana Belén",
@@ -29,7 +29,8 @@
       "acento_tinte": "#F3EBDF",
       "linea": "#E6DCCB",
       "texto_sobre_acento": "#2E2D29"
-    }
+    },
+    "nombre_en_una_linea": true
   },
   "enlaces": [
     {

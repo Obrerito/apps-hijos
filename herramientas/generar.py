@@ -63,7 +63,9 @@ def generar_tarjeta(carpeta):
         foto = f'    <img class="portrait" src="{e(datos["foto"])}" alt="{e(datos["foto_alt"])}">'
     else:
         foto = f'    <img class="avatar" src="{e(datos["foto"])}" alt="{e(datos["foto_alt"])}" width="92" height="92">'
-    clase = ' class="caps"' if estilo.get("nombre_en_mayusculas") else ""
+    clases = (["caps"] if estilo.get("nombre_en_mayusculas") else []) + \
+             (["one-line"] if estilo.get("nombre_en_una_linea") else [])
+    clase = f' class="{" ".join(clases)}"' if clases else ""
     identidad = [foto, f'    <h1{clase}>{e(datos["nombre"])}</h1>']
     if datos.get("profesion"):
         identidad.append(f'    <p class="specialty">{e(datos["profesion"])}</p>')
