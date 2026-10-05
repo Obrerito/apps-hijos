@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Panel de tarjetas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg:#F6F4EF; --surface:#FFFFFF; --ink:#22211E; --soft:#625E56; --line:#E2DDD2; --accent:#7A5F3E; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#171614; --surface:#211F1C; --ink:#F1EEE7; --soft:#B0AA9D; --line:#35322D; --accent:#D8C4AD; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:-apple-system,"Segoe UI",Roboto,sans-serif; padding:32px 16px 56px; }
+  main { max-width:760px; margin:0 auto; }
+  h1 { font-family:Georgia,serif; font-weight:400; font-size:30px; margin:0 0 6px; }
+  .intro { color:var(--soft); line-height:1.55; margin:0 0 6px; max-width:62ch; }
+  .intro a { color:var(--accent); }
+  ul { list-style:none; padding:0; margin:26px 0 0; display:grid; gap:12px; }
+  .ficha { display:flex; gap:16px; background:var(--surface); border:1px solid var(--line);
+           border-radius:10px; padding:16px; }
+  .ficha img { border-radius:14px; flex:none; object-fit:cover; background:var(--line); }
+  .cuerpo { min-width:0; flex:1; }
+  h2 { margin:0; font-size:18px; font-weight:600; }
+  p { margin:4px 0 0; }
+  .detalle, .ruta { color:var(--soft); font-size:14px; }
+  .acciones { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .acciones a { font-size:14px; text-decoration:none; color:var(--ink); border:1px solid var(--line);
+                border-radius:6px; padding:6px 12px; }
+  .acciones a.ver { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+  .url { font-size:12.5px; color:var(--soft); margin-top:10px; overflow-wrap:anywhere; }
+  code { font-family:ui-monospace,Menlo,monospace; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Panel de tarjetas</h1>
+  <p class="intro">Todas las tarjetas están guardadas en el repositorio
+    <a href="https://github.com/Obrerito/apps-hijos">Obrerito/apps-hijos</a> de GitHub: una carpeta por tarjeta.
+    Lo que se guarda ahí se publica solo en <code>obrerito.github.io/apps-hijos/</code>.</p>
+  <p class="intro">Cómo se modifica y cómo se crea una nueva: <a href="https://github.com/Obrerito/apps-hijos/blob/main/LEEME.md">LEEME</a>.</p>
+  <ul>
+    <li class="ficha">
+      <img src="../guadalupe/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Guadalupe Fredes</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>guadalupe/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../guadalupe/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/guadalupe">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/guadalupe/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../lorena/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Lorena Fredes</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>lorena/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../lorena/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/lorena">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/lorena/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../luciana/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Luciana Belén</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>luciana/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../luciana/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/luciana">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/luciana/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../luciana-belen/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Luciana Belén</h2>
+        <p class="detalle">Tarjeta digital de Luciana Belén, maquillaje y peinado especializado en novias y eventos</p>
+        <p class="ruta"><code>luciana-belen/</code> · Con ficha de datos</p>
+        <p class="acciones">
+          <a class="ver" href="../luciana-belen/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/luciana-belen">Archivos</a>
+          <a href="https://github.com/Obrerito/apps-hijos/blob/main/luciana-belen/datos.json">Datos</a>
+          <a href="../luciana-belen/qr.png">QR</a>
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/luciana-belen/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../madeleine-saint-martin/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Madeleine Saint Martin</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>madeleine-saint-martin/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../madeleine-saint-martin/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/madeleine-saint-martin">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/madeleine-saint-martin/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../nestor/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Néstor Fredes</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>nestor/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../nestor/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/nestor">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/nestor/</p>
+      </div>
+    </li>
+    <li class="ficha">
+      <img src="../rocio/icon-192.png" alt="" width="64" height="64">
+      <div class="cuerpo">
+        <h2>Rocío Fredes</h2>
+        <p class="detalle"></p>
+        <p class="ruta"><code>rocio/</code> · Hecha a mano</p>
+        <p class="acciones">
+          <a class="ver" href="../rocio/">Abrir tarjeta</a>
+          <a href="https://github.com/Obrerito/apps-hijos/tree/main/rocio">Archivos</a>
+          
+          
+        </p>
+        <p class="url">https://obrerito.github.io/apps-hijos/rocio/</p>
+      </div>
+    </li>
+  </ul>
+</main>
+</body>
+</html>

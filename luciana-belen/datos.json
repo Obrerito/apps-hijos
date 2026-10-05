@@ -1,0 +1,61 @@
+{
+  "carpeta": "luciana-belen",
+  "nombre": "Luciana Belén",
+  "nombre_app": "Luciana Belén",
+  "descripcion": "Tarjeta digital de Luciana Belén, maquillaje y peinado especializado en novias y eventos",
+  "profesion": "",
+  "frase": "",
+  "pie": "Tarjeta de contacto digital",
+  "foto": "avatar.jpg",
+  "foto_alt": "Retrato de Luciana Belén",
+  "foto_encuadre": "50% 22%",
+  "estilo": {
+    "encabezado": "retrato",
+    "nombre_en_mayusculas": true,
+    "fuente_titulo": "Cormorant Garamond",
+    "fuente_titulo_pesos": "300;400;500",
+    "fuente_texto": "Montserrat",
+    "fuente_texto_pesos": "300;400;500",
+    "google_fonts": "family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500",
+    "referencia_color": "Pantone 4685 C (HEX #D8C4AD, RGB 216/196/173, CMYK 0/9/20/15)",
+    "colores": {
+      "fondo": "#FEFEF2",
+      "superficie": "#FFFFFA",
+      "tinta": "#2E2D29",
+      "tinta_suave": "#5F5B53",
+      "tinta_tenue": "#8C8578",
+      "acento": "#D8C4AD",
+      "acento_oscuro": "#8A7153",
+      "acento_tinte": "#F3EBDF",
+      "linea": "#E6DCCB",
+      "texto_sobre_acento": "#2E2D29"
+    }
+  },
+  "enlaces": [
+    {
+      "tipo": "whatsapp",
+      "principal": true,
+      "titulo": "Envíame un Whatsapp",
+      "detalle": "+34 613 151 938",
+      "url": "https://wa.me/34613151938"
+    },
+    {
+      "tipo": "email",
+      "titulo": "E-mail",
+      "detalle": "lucianabelenmakeup@gmail.com",
+      "url": "mailto:lucianabelenmakeup@gmail.com"
+    },
+    {
+      "tipo": "web",
+      "titulo": "Ir a mi página web",
+      "detalle": "lucianabelen.es",
+      "url": "https://lucianabelen.es"
+    },
+    {
+      "tipo": "instagram",
+      "titulo": "Sígueme en Instagram",
+      "detalle": "@lucianabelen_muah",
+      "url": "https://instagram.com/lucianabelen_muah"
+    }
+  ]
+}

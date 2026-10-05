@@ -1,0 +1,25 @@
+{
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FEFEF2",
+  "theme_color": "#FEFEF2",
+  "orientation": "portrait",
+  "name": "Luciana Belén",
+  "short_name": "Luciana Belén",
+  "description": "Tarjeta digital de Luciana Belén, maquillaje y peinado especializado en novias y eventos",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
