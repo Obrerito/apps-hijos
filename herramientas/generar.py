@@ -34,6 +34,7 @@ ICONOS = {
     "youtube": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="3.2"/><path d="M10.5 9.8v4.4l4-2.2Z" fill="currentColor" stroke="none"/></svg>',
     "telefono": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4h3.5l1.6 4.2-2.2 1.5a12 12 0 0 0 6.4 6.4l1.5-2.2L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5C10.6 20 4 13.400 3.500 5.600A1.500 1.500 0 0 1 5 4Z" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     "mapa": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-6.500-5.800-6.500-11a6.500 6.500 0 0 1 13 0c0 5.200-6.500 11-6.500 11Z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.400"/></svg>',
+    "compartir": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15V3.500M12 3.500 8 7.500M12 3.500l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.500 10.500H6A1.500 1.500 0 0 0 4.500 12v7A1.500 1.500 0 0 0 6 20.500h12a1.500 1.500 0 0 0 1.500-1.500v-7a1.500 1.500 0 0 0-1.500-1.500h-1.500" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     "enlace": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
@@ -52,6 +53,41 @@ def carpetas_de_tarjetas():
                   if p.is_dir() and not p.name.startswith(".")
                   and p.name not in NO_SON_TARJETAS and (p / "index.html").exists()
                   or (p.is_dir() and (p / "datos.json").exists()))
+
+
+def bloque_compartir(carpeta, datos):
+    """Botón "Compartir esta tarjeta" con su hoja (QR, enviar enlace, copiar).
+
+    Sale en todas las tarjetas; para quitarlo, poner "compartir": false en datos.json.
+    """
+    if datos.get("compartir") is False:
+        return ""
+    url = f"{SITIO}/{carpeta.name}/"
+    texto = datos.get("compartir_texto") or f"Tarjeta de contacto de {datos['nombre']}"
+    guia = ('\n      <a class="sheet-btn" href="instructivo.pdf" target="_blank" rel="noopener">Cómo instalarla en el teléfono</a>'
+            if (carpeta / "instructivo.pdf").exists() else "")
+    return f"""
+  <button class="link-row share" type="button" id="compartir"
+          data-url="{e(url)}" data-titulo="{e(datos['nombre'])}" data-texto="{e(texto)}">
+    <span class="link-icon" aria-hidden="true">{ICONOS['compartir']}</span>
+    <span class="link-text">
+      <span class="link-label">Compartir esta tarjeta</span>
+      <span class="link-sub">Enviar el enlace o mostrar el código QR</span>
+    </span>
+  </button>
+
+  <dialog class="sheet" id="hoja-compartir" aria-labelledby="hoja-titulo">
+    <h2 id="hoja-titulo">Compartir la tarjeta</h2>
+    <p>Quien la reciba puede abrirla, instalarla en su teléfono y volver a compartirla.</p>
+    <img class="qr" src="qr.png" alt="Código QR de la tarjeta de {e(datos['nombre'])}" width="190" height="190" loading="lazy">
+    <p class="address">{e(url.split('//')[1])}</p>
+    <div class="sheet-actions">
+      <button class="sheet-btn main" type="button" id="compartir-enviar" hidden>Enviar el enlace</button>
+      <button class="sheet-btn" type="button" id="compartir-copiar">Copiar el enlace</button>{guia}
+      <button class="sheet-btn plain" type="button" id="compartir-cerrar">Cerrar</button>
+    </div>
+  </dialog>
+"""
 
 
 def generar_tarjeta(carpeta):
@@ -89,6 +125,7 @@ def generar_tarjeta(carpeta):
             f'    </a>')
 
     valores = {
+        "bloque_compartir": bloque_compartir(carpeta, datos),
         "nombre": e(datos["nombre"]),
         "nombre_app": e(datos["nombre_app"]),
         "descripcion": e(datos["descripcion"]),

@@ -31,6 +31,15 @@ de GitHub **Obrerito** y todo lo que se guarda aquí se publica solo en:
 3. Guardar los cambios en GitHub. En uno o dos minutos la tarjeta publicada
    muestra lo nuevo; quien la tenga instalada lo ve al volver a abrirla.
 
+## Botón «Compartir esta tarjeta»
+
+Las tarjetas con ficha de datos llevan al final un botón que abre una hoja con
+el código QR, «Enviar el enlace» (WhatsApp, mensajes, correo…), «Copiar el
+enlace» y el instructivo de instalación. Lo puede usar cualquiera que tenga la
+tarjeta abierta o instalada, no solo su titular. Para quitarlo de una tarjeta:
+`"compartir": false` en su `datos.json`. Para cambiar el texto que acompaña al
+enlace: `"compartir_texto": "..."`.
+
 ## Crear una tarjeta nueva
 
 1. Copiar la carpeta de la tarjeta que más se parezca y darle otro nombre

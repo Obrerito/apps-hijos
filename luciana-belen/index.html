@@ -191,6 +191,38 @@
   .link-arrow { margin-left: auto; flex: none; color: var(--ink-faint); }
   .link-row.primary .link-arrow { color: var(--on-accent); opacity: 0.7; }
 
+  /* Botón "Compartir esta tarjeta" y su hoja (QR + enviar/copiar enlace) */
+  button.link-row { width: 100%; font: inherit; text-align: left; cursor: pointer; -webkit-appearance: none; appearance: none; }
+  .link-row.share { background: transparent; border-style: dashed; border-color: var(--accent-deep); }
+
+  dialog.sheet {
+    width: min(92vw, 380px);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 26px 22px 20px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--bg);
+    color: var(--ink);
+    text-align: center;
+  }
+  dialog.sheet::backdrop { background: rgba(30, 28, 24, 0.55); }
+  dialog.sheet h2 { font-family: var(--font-title); font-weight: 400; font-size: 26px; letter-spacing: 0.02em; margin: 0 0 6px; }
+  dialog.sheet p { margin: 0; font-size: 13.5px; font-weight: 300; line-height: 1.5; color: var(--ink-soft); }
+  dialog.sheet .qr { width: 190px; height: 190px; display: block; margin: 18px auto 10px; background: #fff; border: 1px solid var(--line); image-rendering: pixelated; }
+  dialog.sheet .address { font-size: 12px; color: var(--ink-faint); overflow-wrap: anywhere; margin-bottom: 18px; }
+  .sheet-actions { display: flex; flex-direction: column; gap: 8px; }
+  .sheet-btn {
+    display: block; width: 100%; padding: 13px 14px; font: inherit; font-size: 15px; font-weight: 500;
+    text-align: center; text-decoration: none; cursor: pointer; border-radius: 2px;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+    -webkit-appearance: none; appearance: none;
+  }
+  .sheet-btn.main { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .sheet-btn.plain { background: transparent; border-color: transparent; color: var(--ink-soft); font-weight: 400; }
+  .sheet-btn:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+  .sheet-btn[hidden] { display: none; }
+
   footer {
     display: flex;
     flex-direction: column;
@@ -258,6 +290,28 @@
     </a>
   </nav>
 
+  <button class="link-row share" type="button" id="compartir"
+          data-url="https://obrerito.github.io/apps-hijos/luciana-belen/" data-titulo="Luciana Belén" data-texto="Tarjeta de contacto de Luciana Belén">
+    <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15V3.500M12 3.500 8 7.500M12 3.500l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.500 10.500H6A1.500 1.500 0 0 0 4.500 12v7A1.500 1.500 0 0 0 6 20.500h12a1.500 1.500 0 0 0 1.500-1.500v-7a1.500 1.500 0 0 0-1.500-1.500h-1.500" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span class="link-text">
+      <span class="link-label">Compartir esta tarjeta</span>
+      <span class="link-sub">Enviar el enlace o mostrar el código QR</span>
+    </span>
+  </button>
+
+  <dialog class="sheet" id="hoja-compartir" aria-labelledby="hoja-titulo">
+    <h2 id="hoja-titulo">Compartir la tarjeta</h2>
+    <p>Quien la reciba puede abrirla, instalarla en su teléfono y volver a compartirla.</p>
+    <img class="qr" src="qr.png" alt="Código QR de la tarjeta de Luciana Belén" width="190" height="190" loading="lazy">
+    <p class="address">obrerito.github.io/apps-hijos/luciana-belen/</p>
+    <div class="sheet-actions">
+      <button class="sheet-btn main" type="button" id="compartir-enviar" hidden>Enviar el enlace</button>
+      <button class="sheet-btn" type="button" id="compartir-copiar">Copiar el enlace</button>
+      <a class="sheet-btn" href="instructivo.pdf" target="_blank" rel="noopener">Cómo instalarla en el teléfono</a>
+      <button class="sheet-btn plain" type="button" id="compartir-cerrar">Cerrar</button>
+    </div>
+  </dialog>
+
   <footer>
     <div class="rule"></div>
     <p>Tarjeta de contacto digital</p>
@@ -277,6 +331,49 @@
       navigator.serviceWorker.register('sw.js').catch(() => {});
     });
   }
+
+  // Compartir la tarjeta: cualquiera que la tenga abierta (la titular o un
+  // cliente) puede mostrar el QR, enviar el enlace o copiarlo.
+  (function () {
+    var boton = document.getElementById('compartir');
+    var hoja = document.getElementById('hoja-compartir');
+    if (!boton || !hoja) return;
+    var datos = { title: boton.dataset.titulo, text: boton.dataset.texto, url: boton.dataset.url };
+    var enviar = document.getElementById('compartir-enviar');
+    var copiar = document.getElementById('compartir-copiar');
+
+    function abrir() { hoja.showModal ? hoja.showModal() : hoja.setAttribute('open', ''); }
+    function cerrar() { hoja.close ? hoja.close() : hoja.removeAttribute('open'); }
+
+    boton.addEventListener('click', abrir);
+    document.getElementById('compartir-cerrar').addEventListener('click', cerrar);
+    hoja.addEventListener('click', function (ev) { if (ev.target === hoja) cerrar(); });
+
+    if (navigator.share) {
+      enviar.hidden = false;
+      enviar.addEventListener('click', function () { navigator.share(datos).catch(function () {}); });
+    } else {
+      copiar.classList.add('main');
+    }
+
+    copiar.addEventListener('click', function () {
+      var original = copiar.textContent;
+      function listo(ok) {
+        copiar.textContent = ok ? 'Enlace copiado ✓' : 'No se pudo copiar';
+        setTimeout(function () { copiar.textContent = original; }, 2200);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(datos.url).then(function () { listo(true); }, function () { listo(false); });
+      } else {
+        var campo = document.createElement('textarea');
+        campo.value = datos.url; campo.setAttribute('readonly', '');
+        campo.style.position = 'fixed'; campo.style.opacity = '0';
+        document.body.appendChild(campo); campo.select();
+        var ok = false; try { ok = document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(campo); listo(ok);
+      }
+    });
+  })();
 </script>
 </body>
 </html>
